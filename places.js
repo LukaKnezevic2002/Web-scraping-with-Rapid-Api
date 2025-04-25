@@ -118,33 +118,24 @@ conn.query('SELECT * FROM keywords WHERE status = ""', async (err, results) => {
                         let detailedData = await getBusinessDetails(business_id);
                         let detailsJsonResponse = conn.escape(JSON.stringify(detailedData));
 
-                        let facebook = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].emails_and_contacts && detailedData.data[0].emails_and_contacts.facebook ? conn.escape(detailedData.data[0].emails_and_contacts.facebook) : "''";
+                        //socials
+                        let facebook = conn.escape(detailedData?.data?.[0]?.emails_and_contacts?.facebook ?? "''");
+                        let youtube = conn.escape(detailedData?.data?.[0]?.emails_and_contacts?.youtube ?? "''");
+                        let linkedin = conn.escape(detailedData?.data?.[0]?.emails_and_contacts?.linkedin ?? "''");
+                        let instagram = conn.escape(detailedData?.data?.[0]?.emails_and_contacts?.instagram ?? "''");
+                        let twitter = conn.escape(detailedData?.data?.[0]?.emails_and_contacts?.twitter ?? "''");
+                        let tiktok = conn.escape(detailedData?.data?.[0]?.emails_and_contacts?.tiktok ?? "''");
+                        let email = conn.escape(detailedData?.data?.[0]?.emails_and_contacts?.emails?.[0] ?? "''");
 
-                        let youtube = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].emails_and_contacts && detailedData.data[0].emails_and_contacts.youtube ? conn.escape(detailedData.data[0].emails_and_contacts.youtube) : "''";
-                                    
-                        let linkedin = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].emails_and_contacts && detailedData.data[0].emails_and_contacts.linkedin ? conn.escape(detailedData.data[0].emails_and_contacts.linkedin) : "''";
-                                    
-                        let instagram = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].emails_and_contacts && detailedData.data[0].emails_and_contacts.instagram ? conn.escape(detailedData.data[0].emails_and_contacts.instagram) : "''";
-                                    
-                        let twitter = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].emails_and_contacts && detailedData.data[0].emails_and_contacts.twitter ? conn.escape(detailedData.data[0].emails_and_contacts.twitter) : "''";
-                                    
-                        let tiktok = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].emails_and_contacts && detailedData.data[0].emails_and_contacts.tiktok ? conn.escape(detailedData.data[0].emails_and_contacts.tiktok) : "''";
-                                    
-                        let email = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].emails_and_contacts && detailedData.data[0].emails_and_contacts.emails && detailedData.data[0].emails_and_contacts.emails[0] ? conn.escape(detailedData.data[0].emails_and_contacts.emails[0]) : "''";
-                                    
-                        let monday = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].working_hours && detailedData.data[0].working_hours.Monday && detailedData.data[0].working_hours.Monday[0] ? conn.escape(detailedData.data[0].working_hours.Monday[0]) : "''";
-                                    
-                        let tuesday = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].working_hours && detailedData.data[0].working_hours.Tuesday && detailedData.data[0].working_hours.Tuesday[0] ? conn.escape(detailedData.data[0].working_hours.Tuesday[0]) : "''";
-                                    
-                        let wednesday = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].working_hours && detailedData.data[0].working_hours.Wednesday && detailedData.data[0].working_hours.Wednesday[0] ? conn.escape(detailedData.data[0].working_hours.Wednesday[0]) : "''";
-                                    
-                        let thursday = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].working_hours && detailedData.data[0].working_hours.Thursday && detailedData.data[0].working_hours.Thursday[0] ? conn.escape(detailedData.data[0].working_hours.Thursday[0]) : "''";
-                                    
-                        let friday = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].working_hours && detailedData.data[0].working_hours.Friday && detailedData.data[0].working_hours.Friday[0] ? conn.escape(detailedData.data[0].working_hours.Friday[0]) : "''";
-                                    
-                        let saturday = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].working_hours && detailedData.data[0].working_hours.Saturday && detailedData.data[0].working_hours.Saturday[0] ? conn.escape(detailedData.data[0].working_hours.Saturday[0]) : "''";
-                                    
-                        let sunday = detailedData && detailedData.data && detailedData.data[0] && detailedData.data[0].working_hours && detailedData.data[0].working_hours.Sunday && detailedData.data[0].working_hours.Sunday[0] ? conn.escape(detailedData.data[0].working_hours.Sunday[0]) : "''";
+                        //days
+                        let monday = conn.escape(detailedData?.data?.[0]?.working_hours?.Monday?.[0] ?? "''");
+                        let tuesday = conn.escape(detailedData?.data?.[0]?.working_hours?.Tuesday?.[0] ?? "''");
+                        let wednesday = conn.escape(detailedData?.data?.[0]?.working_hours?.Wednesday?.[0] ?? "''");
+                        let thursday = conn.escape(detailedData?.data?.[0]?.working_hours?.Thursday?.[0] ?? "''");
+                        let friday = conn.escape(detailedData?.data?.[0]?.working_hours?.Friday?.[0] ?? "''");
+                        let saturday = conn.escape(detailedData?.data?.[0]?.working_hours?.Saturday?.[0] ?? "''");
+                        let sunday = conn.escape(detailedData?.data?.[0]?.working_hours?.Sunday?.[0] ?? "''");
+
 
                         return new Promise(async (resolve, reject) => {
                             conn.query(`INSERT INTO places SET keyword = ${keyword}, business_id = ${business_id}, country = ${country}, city = ${city}, district = ${district}, zip = ${zip}, address = ${address}, full_address = ${full_address}, name = ${name}, descr = ${descr}, category = ${category}, tags = ${tags}, rating = ${rating}, review_count = ${reviewCount}, verified = ${verified}, phone_number = ${phoneNumber}, website = ${website}, email = ${email}, facebook = ${facebook}, youtube = ${youtube}, linkedin = ${linkedin}, instagram = ${instagram}, twitter = ${twitter}, tiktok = ${tiktok}, monday = ${monday}, tuesday = ${tuesday}, wednesday = ${wednesday}, thursday = ${thursday}, friday = ${friday}, saturday = ${saturday}, sunday = ${sunday}, searchDataJsonResponse = ${searchDataJsonResponse}, detailsJsonResponse = ${detailsJsonResponse} ON DUPLICATE KEY UPDATE keyword = VALUES(keyword), country = VALUES(country), city = VALUES(city), district = VALUES(district), zip = VALUES(zip), address = VALUES(address), full_address = VALUES(full_address), name = VALUES(name), descr = VALUES(descr), category = VALUES(category), tags = VALUES(tags), rating = VALUES(rating), review_count = VALUES(review_count), verified = VALUES(verified), phone_number = VALUES(phone_number), website = VALUES(website), email = VALUES(email), facebook = VALUES(facebook), youtube = VALUES(youtube), linkedin = VALUES(linkedin), instagram = VALUES(instagram), twitter = VALUES(twitter), tiktok = VALUES(tiktok), monday = VALUES(monday), tuesday = VALUES(tuesday), wednesday = VALUES(wednesday), thursday = VALUES(thursday), friday = VALUES(friday), saturday = VALUES(saturday), sunday = VALUES(sunday), searchDataJsonResponse = VALUES(searchDataJsonResponse), detailsJsonResponse = VALUES(detailsJsonResponse);`, async (err, results) => {
